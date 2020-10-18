@@ -1,61 +1,31 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## About Project
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a Laravel project, to simulate transferring funds between wallets. There is a simple web based frontend, and another API based backend.
 
-## About Laravel
+## Build and Run Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project dockerized to use independent of your OS and covers all requirements. Check your docker & docker-compose version by `docker -v` and `docker-compose -v`. If needed, install them on your system.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Now running `docker-compose up -d` will populate the webapp on containers, include Nginx server, App container and MySQL DB server.
+- Now make a copy from _.env.example_ to _.env_ file. Current values for DB works fine, but in real world example, don't use those simple values for passwords, and change them in _docker-compose.yml_ before running docker.
+- Run `docker exec -it app composer install` to install composer dependencies.
+- Run `docker exec -it app php artisan key:generate` to set your application key to a random string.
+- Run `docker exec -it app php artisan migrate` to make tables in MySQL DB.
+- If you want, you can run `docker exec -it app php artisan db:seed` to fill DB with sample data.
+- Finally, you can see the result at [http://localhost:8080/](http://localhost:8080/) on your browser.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+You can see the most important codes in _app/Http/Controllers/*_ for the web based codes, _app/Http/Controllers/API/*_ for API based codes, _routes/web.php_ for web routes, _routes/api.php_ for REST API routes and _resources/views_ for blade views.
 
-## Learning Laravel
+To access APIs, use these methods/endpoints:
+```
+GET       | api/wallets       | index (get data about all user's wallets)
+GET       | api/wallet        | index (get data about specific user's wallet ID)
+POST      | api/transfer      | transfer (Send funds from user's wallet ID to another wallet ID for any user)
+```
+You can check them in an API builder like PostMan. This is a cURL example for POST request:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+`curl --location --request POST ...`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+If you want to interact with images, you can use something like this for Laravel part: `docker exec -it app composer ...` or `docker exec -it app php artisan ...`.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Make this repository better by your ideas and issues.
