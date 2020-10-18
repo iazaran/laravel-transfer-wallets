@@ -1,0 +1,62 @@
+version: '3'
+services:
+
+  server:
+    image: nginx:alpine
+    container_name: server
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./:/var/www
+      ## copy nginx configuration for our application ##
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      ## run the webserver on port 8080 ##
+      - "8080:80"
+    networks:
+      - app-network
+
+  app:
+    ## read php image from our custom docker image ##
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./:/var/www
+      ## copy php configuration for our application ##
+      - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    working_dir: /var/www
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - dbdata:/var/lib/mysql
+      ## copy db configuration for our application ##
+      - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
+    ports:
+      - "1306:3306"
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
