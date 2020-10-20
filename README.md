@@ -6,8 +6,8 @@ This is a Laravel project, to simulate transferring funds between wallets, a sim
 
 This project dockerized to use independent of your OS and covers all requirements. Check your docker & docker-compose version by `docker -v` and `docker-compose -v`. If needed, install them on your system.
 
+- Make a copy from _.env.example_ to _.env_ file. Current values for DB works fine, but in real world example, don't use those simple values for passwords, and change them in _docker-compose.yml_ before running docker.
 - Now running `docker-compose up` will populate the webapp on containers, include Nginx server, App container and MySQL DB server. Please wait until this message: _/usr/sbin/mysqld: ready for connections_
-- Now make a copy from _.env.example_ to _.env_ file. Current values for DB works fine, but in real world example, don't use those simple values for passwords, and change them in _docker-compose.yml_ before running docker.
 - Run `docker exec -it app composer install` to install composer dependencies.
 - Run `docker exec -it app php artisan key:generate` to set your application key to a random string.
 - Run `docker exec -it app php artisan migrate` to make tables in MySQL DB.
