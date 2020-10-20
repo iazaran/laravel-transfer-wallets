@@ -29,7 +29,11 @@ GET          | api/wallets                 | collect all data about all wallets 
 POST         | api/transfer                | Send funds from specific wallet of auth user to another wallet for any user
 GET          | api/transactions            | collect data about all transactions of specific wallet of auth user
 ```
-API access is possible with a token, and you can access it via register and then login. You need to use it as Bearer Token in other requests. You can check them in an API builder like PostMan. This is a cURL example for transfer fund from wallet ID 16 to wallet ID 8, and amount 50 units:
+API access is possible with a token, and you can access it via register and then login. You need to use it as Bearer Token in other requests. You can check them in an API builder like PostMan. This is ready to use PostMan collection:
+
+ [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/85749df201ad1dcfed19)
+ 
+ And, this is a cURL example for transfer fund from wallet ID 16 to wallet ID 8, and amount 50 units:
 
 ```
 curl --location --request POST 'http://localhost:8080/api/transfer?from=16&to=8&amount=50' \
