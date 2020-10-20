@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('register', [\App\Http\Controllers\API\AuthController::class, 'register']);
+Route::post('login', [\App\Http\Controllers\API\AuthController::class, 'login']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::apiResource('wallets', \App\Http\Controllers\API\WalletController::class)->except(['update', 'destroy']);
+
+    Route::post('transfer', [\App\Http\Controllers\API\TransactionController::class, 'transfer']);
+    Route::get('transactions', [\App\Http\Controllers\API\TransactionController::class, 'transactions']);
 });
